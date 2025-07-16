@@ -1,0 +1,69 @@
+
+import axios from 'axios';
+import React, { useState } from 'react'
+
+const Calculator = () => {
+    const [inputs, changeInputs] = useState({ num1: '', num2: '' })
+    const [result, Result] = useState("")
+
+    const inputHandler = (e) => {
+        changeInputs({ ...inputs, [e.target.name]: e.target.value });
+    }
+
+      const readValues=()=>{
+        console.log(inputs)
+        axios.post("http://localhost:4000/add",inputs).then(
+            (response)=>{
+                Result(response.data.result)
+            }
+        ).catch((error)=>{
+            console.log("Error",error)
+            Result("error")
+        })
+    }
+    return (
+        <div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                        <div className="row">
+                            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                                <div className="p-4 border rounded shadow">
+                                    <h3 className="text-center mb-4">Simple Calculator</h3>
+
+                                    <input
+                                        type="number"
+                                        className="form-control mb-3"
+                                        name="num1"
+                                        value={inputs.num1}
+                                        onChange={inputHandler}
+                                        placeholder="Enter Number 1"
+                                    />
+                                    <input
+                                        type="number"
+                                        className="form-control mb-3"
+                                        name="num2"
+                                        value={inputs.num2}
+                                        onChange={inputHandler}
+                                        placeholder="Enter Number 2"
+                                    />
+
+                                    <div className="d-flex justify-content-between flex-wrap gap-2 mb-3">
+                                        <button className="btn btn-primary" onClick={() => readValues("add")}>Add</button>
+                                        <button className="btn btn-secondary" onClick={() => readValues("sub")}>Subtract</button>
+                                        <button className="btn btn-success" onClick={() => readValues("mul")}>Multiply</button>
+                                        <button className="btn btn-danger" onClick={() => readValues("div")}>Divide</button>
+                                    </div>
+
+                                    <h4 className="text-center">Result: {result !== null ? result : "N/A"}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Calculator
