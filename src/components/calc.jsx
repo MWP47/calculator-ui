@@ -16,7 +16,7 @@ const Calc = () => {
     axios.post(`http://localhost:4000/${operation}`, input)
       .then((response) => {
         setResult(response.data.result);
-      })
+      
       .catch((error) => {
         console.log("Error", error);
         setResult("error");
